@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
 import { asyncWrapper } from "../middlewares";
 import { Note } from "../models";
+import { IRequest } from "./user";
 
-export const createNote = asyncWrapper(async (req: Request, res: Response) => {
+export const createNote = asyncWrapper(async (req: IRequest, res: Response) => {
 	const note = await Note.create(req.body);
 	res.status(201).json({ message: "Note Added Successfully" });
 });
 
-export const getNotes = asyncWrapper(async (req: Request, res: Response) => {
-	const notes = await Note.find();
+export const getNotes = asyncWrapper(async (req: IRequest, res: Response) => {
+	const notes = await Note.find({ user: req.user?._id });
 	res.status(201).json({ notes });
 });
 

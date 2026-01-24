@@ -3,8 +3,13 @@ import express from "express";
 import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
-import { errorHandlerMiddleware, notFoundMiddleware } from "./middlewares";
+import {
+	authenticateUser,
+	errorHandlerMiddleware,
+	notFoundMiddleware,
+} from "./middlewares";
 import { connectDB } from "./db";
+import { noteRouter, userRouter } from "./routes";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -15,6 +20,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(cors({ origin: CLIENT_URL, credentials: true }));
 app.use(morgan("tiny"));
+
+// routers
+app.use("/auth", userRouter);
+app.use("/note", authenticateUser, noteRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
