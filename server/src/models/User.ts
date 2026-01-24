@@ -13,7 +13,7 @@ export interface IUser {
 	country: string;
 
 	comparePassword(password: string): Promise<boolean>;
-	createJWTToken(): void;
+	createJWTToken(): string;
 }
 
 const UserSchema = new Schema<IUser>(
@@ -46,10 +46,11 @@ UserSchema.pre("save", async function () {
 });
 
 UserSchema.methods.comparePassword = async function (password: string) {
+  console.log(password, this.password)
 	return await compare(password, this.password);
 };
 
-UserSchema.methods.CreateJWTToken = function () {
+UserSchema.methods.createJWTToken = function () {
 	return sign({ userId: this._id }, process.env.JWT_SECRET!, {
 		expiresIn: "1d",
 	});

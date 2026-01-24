@@ -4,7 +4,7 @@ import { Note } from "../models";
 import { IRequest } from "./user";
 
 export const createNote = asyncWrapper(async (req: IRequest, res: Response) => {
-	const note = await Note.create(req.body);
+	await Note.create({...req.body, user: req.user?._id});
 	res.status(201).json({ message: "Note Added Successfully" });
 });
 
