@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+button {
+	cursor: pointer;
+}
+
+input {
+	outline: none;
+	padding: 0.3125em;
+}
