@@ -4,6 +4,7 @@ import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
 import { errorHandlerMiddleware, notFoundMiddleware } from "./middlewares";
+import { connectDB } from "./db";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -19,6 +20,7 @@ app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 app.listen(PORT, async () => {
 	try {
+		await connectDB();
 		console.log("App is running on http://localhost:4000");
 	} catch (error) {
 		console.log(error);
