@@ -1,16 +1,15 @@
 import { useState } from "react";
 
 const AddNote = () => {
-  const [note, setNote] = useState("");
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    
-  }
+	const [note, setNote] = useState("");
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+	};
 
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="w-4/5 max-w-md my-4 mx-auto border border-gray-300 rounded flex"
+			className="w-full sm:max-w-md sm:mx-auto border border-gray-300 rounded flex"
 		>
 			<input
 				className="w-4/5"
