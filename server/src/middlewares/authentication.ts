@@ -8,7 +8,7 @@ import { User } from "../models";
 export const authenticateUser = asyncWrapper(
 	async (req: IRequest, res: Response, next: NextFunction) => {
 		const token = req.headers.authorization?.split(" ")[1];
-		if (!token || token === "undefined" || token === "null")
+		if (!token)
 			throw new UnauthenticatedError("Authentication invalid.");
 
 		const { userId } = verify(token, process.env.JWT_SECRET!) as {

@@ -18,13 +18,19 @@ export const login = asyncWrapper(async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 	if (!email || !password) throw new BadRequestError("Invalid credentials.");
 
-	const user = await User.findOne({ email: req.body.email }).select("+password");
+	const user = await User.findOne({ email: req.body.email }).select(
+		"+password",
+	);
 	if (!user) throw new BadRequestError("Invalid credentials.");
 
 	const isPasswordCorrect = await user.comparePassword(password);
 	if (!isPasswordCorrect) throw new BadRequestError("Invalid credentials.");
 
 	sendToken(res, 200, "Logged in successfully.", user);
+});
+
+export const logout = asyncWrapper(async (req: Request, res: Response) => {
+	res.status(200).json({ message: "Logged out successfully" });
 });
 
 export const getProfile = asyncWrapper(async (req: IRequest, res: Response) => {

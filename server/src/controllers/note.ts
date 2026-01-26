@@ -10,17 +10,17 @@ export const createNote = asyncWrapper(async (req: IRequest, res: Response) => {
 
 export const getNotes = asyncWrapper(async (req: IRequest, res: Response) => {
 	const notes = await Note.find({ user: req.user?._id });
-	res.status(201).json({ notes });
+	res.status(200).json({ notes });
 });
 
 export const updateNote = asyncWrapper(async (req: Request, res: Response) => {
 	const note = await Note.findByIdAndUpdate(req.params.id, req.body, {
 		new: true,
 	});
-	res.status(201).json({ message: "Note updated successfully" });
+	res.status(200).json({ message: "Note updated successfully" });
 });
 
 export const deleteNote = asyncWrapper(async (req: Request, res: Response) => {
 	await Note.findByIdAndDelete(req.params.id);
-	res.status(201).json({ message: "Note deleted successfully" });
+	res.status(200).json({ message: "Note deleted successfully" });
 });

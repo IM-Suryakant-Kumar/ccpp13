@@ -1,4 +1,4 @@
-import { getToken } from "../../utils";
+import { getToken, removeToken } from "../../utils";
 import { api } from "../api";
 
 const auth = api.injectEndpoints({
@@ -11,8 +11,53 @@ const auth = api.injectEndpoints({
 					Authorization: `Bearer ${getToken()}`,
 				},
 			}),
-			providesTags: (result) =>
-				result ? [{ type: "Auth", id: "LIST" }] : ["Auth"],
+			providesTags: ["Auth"],
+		}),
+		updateProfile: build.mutation<SuccessResponse, IUser>({
+			query: (body) => ({
+				url: "/auth/me",
+				method: "PATCH",
+				body,
+				headers: {
+					Authorization: `Bearer ${getToken()}`,
+				},
+			}),
+			invalidatesTags: (result) => (result ? ["Auth"] : []),
+		}),
+		signup: build.mutation<SuccessResponse, IUser>({
+			query: (body) => ({
+				url: "/auth/signup",
+				method: "POST",
+				body,
+			}),
+			invalidatesTags: (result) => (result ? ["Auth"] : []),
+		}),
+		login: build.mutation<SuccessResponse, IUser>({
+			query: (body) => ({
+				url: "/auth/login",
+				method: "POST",
+				body,
+			}),
+			invalidatesTags: (result) => (result ? ["Auth"] : []),
+		}),
+		logout: build.mutation<SuccessResponse, void>({
+			query: (body) => ({
+				url: "/auth/login",
+				method: "Get",
+				body,
+			}),
+			invalidatesTags: (result) => {
+				if (result) removeToken();
+				return result ? ["Auth"] : [];
+			},
 		}),
 	}),
 });
+
+export const {
+	useGetProfileQuery,
+	useUpdateProfileMutation,
+	useSignupMutation,
+	useLoginMutation,
+	useLogoutMutation,
+} = auth;
