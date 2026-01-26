@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 export const store = configureStore({
-	reducer: {},
+	reducer: {
+		[api.reducerPath]: api.reducer,
+	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(api.middleware),
 });

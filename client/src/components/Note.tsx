@@ -1,7 +1,11 @@
-const Note = ({ note }: { note: { id: string; content: string } }) => {
-	const handleEdit = () => {};
+import { useDeleteNoteMutation, useUpdateNoteMutation } from "../features/apis";
 
-	const handleDelete = () => {};
+const Note = ({ note }: { note: INote }) => {
+	// const [updateNote, { isLoading: isUpdateNoteLoading }] =
+	// 	useUpdateNoteMutation();
+	const [deleteNote, { isLoading: isDeleteNoteLoading }] =
+		useDeleteNoteMutation();
+	const handleEdit = () => {};
 
 	return (
 		<div className="bg-white border border-gray-300 rounded p-4">
@@ -10,7 +14,11 @@ const Note = ({ note }: { note: { id: string; content: string } }) => {
 				<button className="text-gray-600" onClick={handleEdit}>
 					Edit
 				</button>
-				<button className="text-red-500" onClick={handleDelete}>
+				<button
+					className="text-red-500"
+					onClick={() => deleteNote({ _id: note._id } as INote)}
+					disabled={isDeleteNoteLoading}
+				>
 					Delete
 				</button>
 			</div>

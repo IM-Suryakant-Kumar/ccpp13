@@ -18,7 +18,7 @@ export const login = asyncWrapper(async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 	if (!email || !password) throw new BadRequestError("Invalid credentials.");
 
-	const user = await User.findOne({ email: req.body.email }).select(
+	const user = await User.findOne({ email }).select(
 		"+password",
 	);
 	if (!user) throw new BadRequestError("Invalid credentials.");

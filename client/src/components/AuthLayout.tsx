@@ -1,10 +1,17 @@
 import { Navigate, Outlet, useLocation } from "react-router";
+import { useGetProfileQuery } from "../features/apis";
 
 const AuthLayout = () => {
-	const user = false;
+	const { isLoading, isSuccess } = useGetProfileQuery();
 	const pathname = useLocation().state?.redirectTo || "/";
-  
-	return user ? <Navigate to={pathname} replace /> : <Outlet />;
+
+	return isLoading ? (
+		<h1>Loading...</h1>
+	) : isSuccess ? (
+		<Navigate to={pathname} replace />
+	) : (
+		<Outlet />
+	);
 };
 
 export default AuthLayout;

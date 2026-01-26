@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { useCreateNoteMutation } from "../features/apis";
 
 const AddNote = () => {
+	const [createNote, { isLoading }] = useCreateNoteMutation();
 	const [note, setNote] = useState("");
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		createNote({ content: note } as INote);
+		setNote("");
 	};
 
 	return (
@@ -20,7 +24,9 @@ const AddNote = () => {
 				value={note}
 				onChange={(e) => setNote(e.target.value)}
 			/>
-			<button className="w-1/5 bg-black text-white">Add</button>
+			<button className="w-1/5 bg-black text-white" disabled={isLoading}>
+				Add
+			</button>
 		</form>
 	);
 };

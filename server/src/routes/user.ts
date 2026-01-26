@@ -18,4 +18,4 @@ router
 	.get(authenticateUser, getProfile)
 	.patch(authenticateUser, updateProfile);
 
-export const userRouter = router;
+export const authRouter = router;

@@ -1,10 +1,13 @@
 import { Navigate, Outlet, useLocation } from "react-router";
+import { useGetProfileQuery } from "../features/apis";
 
 const HostLayout = () => {
-	const user = true;
+	const { isLoading, isSuccess } = useGetProfileQuery();
 	const pathname = useLocation().pathname;
 
-	return user ? (
+	return isLoading ? (
+		<h1>Loding...</h1>
+	) : isSuccess ? (
 		<Outlet />
 	) : (
 		<Navigate

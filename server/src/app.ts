@@ -9,7 +9,7 @@ import {
 	notFoundMiddleware,
 } from "./middlewares";
 import { connectDB } from "./db";
-import { noteRouter, userRouter } from "./routes";
+import { noteRouter, authRouter } from "./routes";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -22,7 +22,7 @@ app.use(cors({ origin: CLIENT_URL, credentials: true }));
 app.use(morgan("tiny"));
 
 // routers
-app.use("/auth", userRouter);
+app.use("/auth", authRouter);
 app.use("/note", authenticateUser, noteRouter);
 
 app.use(notFoundMiddleware);

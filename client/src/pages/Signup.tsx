@@ -1,14 +1,15 @@
 import { Link } from "react-router";
+import { useSignupMutation } from "../features/apis";
 
 const Signup = () => {
+	const [signup, { isLoading }] = useSignupMutation();
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
 		const name = formData.get("name") as string;
 		const email = formData.get("email") as string;
 		const password = formData.get("password") as string;
-		// signup
-		console.log(name, email, password);
+		signup({ name, email, password } as IUser);
 	};
 
 	return (
@@ -43,7 +44,12 @@ const Signup = () => {
 					maxLength={8}
 					required
 				/>
-				<button className="bg-black text-white py-1 rouded my-3">Signup</button>
+				<button
+					className="bg-black text-white py-1 rouded my-3"
+					disabled={isLoading}
+				>
+					{isLoading ? "Signup..." : "Signup"}
+				</button>
 				<p className="text-gray-400 text-sm font-semibold text-center">
 					Already have an account{" "}
 					<Link className="text-blue-600" to="/login">
