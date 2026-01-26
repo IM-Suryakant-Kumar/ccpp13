@@ -1,4 +1,4 @@
-import { getToken, removeToken } from "../../utils";
+import { addToken, getToken, removeToken } from "../../utils";
 import { api } from "../api";
 
 const auth = api.injectEndpoints({
@@ -30,7 +30,10 @@ const auth = api.injectEndpoints({
 				method: "POST",
 				body,
 			}),
-			invalidatesTags: (result) => (result ? ["Auth"] : []),
+			invalidatesTags: (result) => {
+				if (result) addToken(result.token!);
+				return result ? ["Auth"] : [];
+			},
 		}),
 		login: build.mutation<SuccessResponse, IUser>({
 			query: (body) => ({
@@ -38,14 +41,13 @@ const auth = api.injectEndpoints({
 				method: "POST",
 				body,
 			}),
-			invalidatesTags: (result) => (result ? ["Auth"] : []),
+			invalidatesTags: (result) => {
+				if (result) addToken(result.token!);
+				return result ? ["Auth"] : [];
+			},
 		}),
 		logout: build.mutation<SuccessResponse, void>({
-			query: (body) => ({
-				url: "/auth/login",
-				method: "Get",
-				body,
-			}),
+			query: () => "/auth/logout",
 			invalidatesTags: (result) => {
 				if (result) removeToken();
 				return result ? ["Auth"] : [];
