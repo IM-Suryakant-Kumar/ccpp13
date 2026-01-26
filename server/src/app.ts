@@ -8,13 +8,12 @@ import {
 	errorHandlerMiddleware,
 	notFoundMiddleware,
 } from "./middlewares";
+import { connectDB } from "./db";
 import { noteRouter, authRouter } from "./routes";
-import { connect } from "mongoose";
 
 const app = express();
 const PORT = process.env.PORT;
 const CLIENT_URL = process.env.CLIENT_URL;
-const MONGO_URI = process.env.MONGO_URI;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -30,7 +29,7 @@ app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 app.listen(PORT, async () => {
 	try {
-		await connect(MONGO_URI!);
+		await connectDB();
 		console.log("App is running on http://localhost:4000");
 	} catch (error) {
 		console.log(error);
