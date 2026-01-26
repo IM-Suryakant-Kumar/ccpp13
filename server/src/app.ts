@@ -26,13 +26,15 @@ app.use("/note", authenticateUser, noteRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
-app.listen(PORT, async () => {
+(async () => {
 	try {
 		await mongoose.connect(process.env.MONGO_URI!);
-		console.log("App is running on http://localhost:4000");
+		app.listen(PORT, async () =>
+			console.log("App is running on http://localhost:4000"),
+		);
 	} catch (error) {
 		console.log(error);
 	}
-});
+})();
 
 export default app;
