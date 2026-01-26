@@ -9,7 +9,7 @@ import {
 	notFoundMiddleware,
 } from "./middlewares";
 import { noteRouter, authRouter } from "./routes";
-import mongoose from "mongoose";
+import { connectDB } from "./db";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -28,7 +28,7 @@ app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 (async () => {
 	try {
-		await mongoose.connect(process.env.MONGO_URI!);
+		await connectDB();
 		app.listen(PORT, async () =>
 			console.log("App is running on http://localhost:4000"),
 		);
