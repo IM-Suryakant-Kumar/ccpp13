@@ -8,5 +8,12 @@ export const sendToken = (
 	user: IUser,
 ) => {
 	const token = user.createJWTToken();
-	res.status(statusCode).json({ message, token, user });
+	res
+		.cookie("token", token, {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === "production",
+			sameSite: "none",
+		})
+		.status(statusCode)
+		.json({ message, user });
 };
